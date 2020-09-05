@@ -6,34 +6,27 @@ using namespace std;
 
 void bfs(vector <int> graph[], int size, int start ) {
 
-    bool marked[size];
+    vector <bool> marked(size, false);
     queue <int> q;
 
-    for(int i = 0; i < size; i++) marked[i] = false;
+    q.push(start);
+    marked[start] = true;
 
     int count = 0;
-    for(int k = 0; k < size; k++) {
-        
-        if(!marked[k]) {
-            q.push(k);
-            marked[k] = true;
+    while(!q.empty()) {
 
-            while(!q.empty()) {
+        int node = q.front();
+        q.pop();
 
-                int node = q.front();
-                q.pop();
-
-                for (auto i = graph[node].begin(); i != graph[node].end(); ++i) 
-                {
-                    if (!marked[*i]) 
-                    {
-                        count++;
-                        marked[*i] = true; 
-                        q.push(*i); 
-                    }
-                } 
-            }
-        }
+        for (auto i:graph[node]) 
+        {
+            if (!marked[i]) 
+            { 
+                marked[i] = true; 
+                q.push(i);
+                count++; 
+            } 
+        } 
     }
 
     cout << count * 2 << endl;
